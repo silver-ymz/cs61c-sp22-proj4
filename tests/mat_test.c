@@ -1,6 +1,6 @@
-#include "CUnit/CUnit.h"
-#include "CUnit/Basic.h"
 #include "../src/matrix.h"
+#include "CUnit/Basic.h"
+#include "CUnit/CUnit.h"
 #include <stdio.h>
 
 /* Test Suite setup and cleanup functions: */
@@ -10,7 +10,7 @@ int clean_suite(void) { return 0; }
 /************* Test case functions ****************/
 
 void get_test(void) {
-  matrix *mat = NULL;
+  Matrix *mat = NULL;
   allocate_matrix(&mat, 2, 2);
   for (int i = 0; i < 2; i++) {
     for (int j = 0; j < 2; j++) {
@@ -25,7 +25,7 @@ void get_test(void) {
 }
 
 void set_test(void) {
-  matrix *mat = NULL;
+  Matrix *mat = NULL;
   allocate_matrix(&mat, 2, 2);
   for (int i = 0; i < 2; i++) {
     for (int j = 0; j < 2; j++) {
@@ -40,14 +40,14 @@ void set_test(void) {
 }
 
 void alloc_fail_test(void) {
-  matrix *mat = NULL;
+  Matrix *mat = NULL;
   CU_ASSERT_EQUAL(allocate_matrix(&mat, 0, 0), -1);
   CU_ASSERT_EQUAL(allocate_matrix(&mat, 0, 1), -1);
   CU_ASSERT_EQUAL(allocate_matrix(&mat, 1, 0), -1);
 }
 
 void alloc_success_test(void) {
-  matrix *mat = NULL;
+  Matrix *mat = NULL;
   CU_ASSERT_EQUAL(allocate_matrix(&mat, 3, 2), 0);
   CU_ASSERT_EQUAL(mat->parent, NULL);
   CU_ASSERT_EQUAL(mat->ref_cnt, 1);
@@ -63,16 +63,16 @@ void alloc_success_test(void) {
 }
 
 void alloc_ref_fail_test(void) {
-  matrix *mat = NULL;
-  matrix *from = NULL;
+  Matrix *mat = NULL;
+  Matrix *from = NULL;
   CU_ASSERT_EQUAL(allocate_matrix_ref(&mat, from, 0, 0, 0), -1);
   CU_ASSERT_EQUAL(allocate_matrix_ref(&mat, from, 0, 0, 1), -1);
   CU_ASSERT_EQUAL(allocate_matrix_ref(&mat, from, 0, 1, 0), -1);
 }
 
 void alloc_ref_success_test(void) {
-  matrix *mat = NULL;
-  matrix *from = NULL;
+  Matrix *mat = NULL;
+  Matrix *from = NULL;
   allocate_matrix(&from, 3, 2);
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 2; j++) {
@@ -90,14 +90,14 @@ void alloc_ref_success_test(void) {
 }
 
 void dealloc_null_test(void) {
-  matrix *mat = NULL;
+  Matrix *mat = NULL;
   deallocate_matrix(mat); // Test the null case doesn't crash
 }
 
 void add_test(void) {
-  matrix *result = NULL;
-  matrix *mat1 = NULL;
-  matrix *mat2 = NULL;
+  Matrix *result = NULL;
+  Matrix *mat1 = NULL;
+  Matrix *mat2 = NULL;
   CU_ASSERT_EQUAL(allocate_matrix(&result, 2, 2), 0);
   CU_ASSERT_EQUAL(allocate_matrix(&mat1, 2, 2), 0);
   CU_ASSERT_EQUAL(allocate_matrix(&mat2, 2, 2), 0);
@@ -118,12 +118,9 @@ void add_test(void) {
   deallocate_matrix(mat2);
 }
 
-/* (OPTIONAL) Uncomment the following sub_test if you have decided to implement it in matrix.c.
-void sub_test(void) {
-  matrix *result = NULL;
-  matrix *mat1 = NULL;
-  matrix *mat2 = NULL;
-  CU_ASSERT_EQUAL(allocate_matrix(&result, 2, 2), 0);
+/* (OPTIONAL) Uncomment the following sub_test if you have decided to implement
+it in matrix.c. void sub_test(void) { matrix *result = NULL; matrix *mat1 =
+NULL; matrix *mat2 = NULL; CU_ASSERT_EQUAL(allocate_matrix(&result, 2, 2), 0);
   CU_ASSERT_EQUAL(allocate_matrix(&mat1, 2, 2), 0);
   CU_ASSERT_EQUAL(allocate_matrix(&mat2, 2, 2), 0);
   for (int i = 0; i < 2; i++) {
@@ -144,10 +141,8 @@ void sub_test(void) {
 }
 */
 
-/* (OPTIONAL) Uncomment the following neg_test if you have decided to implement it in matrix.c.
-void neg_test(void) {
-  matrix *result = NULL;
-  matrix *mat = NULL;
+/* (OPTIONAL) Uncomment the following neg_test if you have decided to implement
+it in matrix.c. void neg_test(void) { matrix *result = NULL; matrix *mat = NULL;
   CU_ASSERT_EQUAL(allocate_matrix(&result, 2, 2), 0);
   CU_ASSERT_EQUAL(allocate_matrix(&mat, 2, 2), 0);
   for (int i = 0; i < 2; i++) {
@@ -163,12 +158,12 @@ void neg_test(void) {
   }
   deallocate_matrix(result);
   deallocate_matrix(mat);
-} 
+}
 */
 
 void abs_test(void) {
-  matrix *result = NULL;
-  matrix *mat = NULL;
+  Matrix *result = NULL;
+  Matrix *mat = NULL;
   CU_ASSERT_EQUAL(allocate_matrix(&result, 2, 2), 0);
   CU_ASSERT_EQUAL(allocate_matrix(&mat, 2, 2), 0);
   for (int i = 0; i < 2; i++) {
@@ -190,9 +185,9 @@ void abs_test(void) {
 }
 
 void mul_square_test(void) {
-  matrix *result = NULL;
-  matrix *mat1 = NULL;
-  matrix *mat2 = NULL;
+  Matrix *result = NULL;
+  Matrix *mat1 = NULL;
+  Matrix *mat2 = NULL;
   CU_ASSERT_EQUAL(allocate_matrix(&result, 3, 3), 0);
   CU_ASSERT_EQUAL(allocate_matrix(&mat1, 3, 3), 0);
   CU_ASSERT_EQUAL(allocate_matrix(&mat2, 3, 3), 0);
@@ -218,9 +213,9 @@ void mul_square_test(void) {
 }
 
 void mul_non_square_test(void) {
-  matrix *result = NULL;
-  matrix *mat1 = NULL;
-  matrix *mat2 = NULL;
+  Matrix *result = NULL;
+  Matrix *mat1 = NULL;
+  Matrix *mat2 = NULL;
   CU_ASSERT_EQUAL(allocate_matrix(&result, 3, 3), 0);
   CU_ASSERT_EQUAL(allocate_matrix(&mat1, 3, 2), 0);
   CU_ASSERT_EQUAL(allocate_matrix(&mat2, 2, 3), 0);
@@ -250,8 +245,8 @@ void mul_non_square_test(void) {
 }
 
 void pow_test(void) {
-  matrix *result = NULL;
-  matrix *mat = NULL;
+  Matrix *result = NULL;
+  Matrix *mat = NULL;
   CU_ASSERT_EQUAL(allocate_matrix(&result, 2, 2), 0);
   CU_ASSERT_EQUAL(allocate_matrix(&mat, 2, 2), 0);
   set(mat, 0, 0, 1);
@@ -274,9 +269,9 @@ void pow_test(void) {
 
 /************* Test Runner Code goes here **************/
 
-int main (void)
-{
-  Py_Initialize(); // Need to call this so that Python.h functions won't segfault
+int main(void) {
+  Py_Initialize(); // Need to call this so that Python.h functions won't
+                   // segfault
   CU_pSuite pSuite = NULL;
 
   /* initialize the CUnit test registry */
@@ -290,28 +285,29 @@ int main (void)
     return CU_get_error();
   }
 
-   /* add the tests to the suite */
-   if ((CU_add_test(pSuite, "add_test", add_test) == NULL) ||
-        /* (OPTIONAL) Uncomment the following lines if you have implemented sub_matrix and neg_matrix.
-        (CU_add_test(pSuite, "sub_test", sub_test) == NULL) ||
-        (CU_add_test(pSuite, "neg_test", neg_test) == NULL) ||
-        */
-        (CU_add_test(pSuite, "mul_square_test", mul_square_test) == NULL) ||
-        (CU_add_test(pSuite, "mul_non_square_test", mul_non_square_test) == NULL) ||
-        (CU_add_test(pSuite, "abs_test", abs_test) == NULL) ||
-        (CU_add_test(pSuite, "pow_test", pow_test) == NULL) ||
-        (CU_add_test(pSuite, "alloc_fail_test", alloc_fail_test) == NULL) ||
-        (CU_add_test(pSuite, "alloc_success_test", alloc_success_test) == NULL) ||
-        (CU_add_test(pSuite, "alloc_ref_fail_test", alloc_ref_fail_test) == NULL) ||
-        (CU_add_test(pSuite, "alloc_ref_success_test", alloc_ref_success_test) == NULL) ||
-        (CU_add_test(pSuite, "dealloc_null_test", dealloc_null_test) == NULL) ||
-        (CU_add_test(pSuite, "get_test", get_test) == NULL) ||
-        (CU_add_test(pSuite, "set_test", set_test) == NULL)
-     )
-   {
-      CU_cleanup_registry();
-      return CU_get_error();
-   }
+  /* add the tests to the suite */
+  if ((CU_add_test(pSuite, "add_test", add_test) == NULL) ||
+      /* (OPTIONAL) Uncomment the following lines if you have implemented
+      sub_matrix and neg_matrix. (CU_add_test(pSuite, "sub_test", sub_test) ==
+      NULL) || (CU_add_test(pSuite, "neg_test", neg_test) == NULL) ||
+      */
+      (CU_add_test(pSuite, "mul_square_test", mul_square_test) == NULL) ||
+      (CU_add_test(pSuite, "mul_non_square_test", mul_non_square_test) ==
+       NULL) ||
+      (CU_add_test(pSuite, "abs_test", abs_test) == NULL) ||
+      (CU_add_test(pSuite, "pow_test", pow_test) == NULL) ||
+      (CU_add_test(pSuite, "alloc_fail_test", alloc_fail_test) == NULL) ||
+      (CU_add_test(pSuite, "alloc_success_test", alloc_success_test) == NULL) ||
+      (CU_add_test(pSuite, "alloc_ref_fail_test", alloc_ref_fail_test) ==
+       NULL) ||
+      (CU_add_test(pSuite, "alloc_ref_success_test", alloc_ref_success_test) ==
+       NULL) ||
+      (CU_add_test(pSuite, "dealloc_null_test", dealloc_null_test) == NULL) ||
+      (CU_add_test(pSuite, "get_test", get_test) == NULL) ||
+      (CU_add_test(pSuite, "set_test", set_test) == NULL)) {
+    CU_cleanup_registry();
+    return CU_get_error();
+  }
 
   // Run all tests using the basic interface
   CU_basic_set_mode(CU_BRM_NORMAL);

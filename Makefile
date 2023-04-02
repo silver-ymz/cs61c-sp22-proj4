@@ -1,8 +1,8 @@
-CC = gcc
+CC = clang
 CFLAGS = -g -Wall -std=c99 -fopenmp -mavx -mfma -pthread
 LDFLAGS = -fopenmp
-CUNIT = -L/home/ff/cs61c/cunit/install/lib -I/home/ff/cs61c/cunit/install/include -lcunit
-PYTHON = -I/usr/include/python3.6 -lpython3.6m
+CUNIT = $(shell pkg-config --cflags --libs cunit)
+PYTHON = $(shell python3-config --include) $(shell python3-config --ldflags) -lpython3.11
 
 install:
 	if [ ! -f files.txt ]; then touch files.txt; fi
